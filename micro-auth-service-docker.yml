@@ -1,16 +1,59 @@
 spring:
   application:
-    name: prd-eureka-server
-#Nuevo1
-server:
-  port: 8761
-
+    name: micro-auth-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/MicroFullAuth
+    username: root
+    password: ImNotlol12$$%%
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
 eureka:
   client:
-    register-with-eureka: false
-    fetch-registry: false
-    #server:
-    #wait-time-in-ms-when-sync-empty: 1000 #hace que el servidor espere 1 segundo antes de sincronizar con el servidor de descubrimiento si no hay instancias registradas
-    #enable-self-preservation: true # si se establece en true, el servidor de descubrimiento no eliminará las instancias que no envían actualizaciones de estado periódicas
-    #instance:
-    #lease-renewal-interval-in-seconds: 1 #frecuencia con la que las instancias deben enviar actualizaciones de estado al servidor de descubrimiento
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+#instance:
+server:
+  port: 8081
+
+# JWT
+security:
+  jwt:
+    expiration-in-minutes: 600000
+    secret-key: ZXN0YSBlcyBtaSBjb250cmFzZW5hIHNlZ3VyYSAxMjM0NTY3ODkgQUJDYWJj
+
+#paths
+request-paths:
+  paths:
+    # Restricción para rutas que terminan en '/status/hellCheck'
+    - uri: "/auth/status/hellCheck$"
+      methods: ["GET"]
+      roles: ["ROLE_ADMIN"]
+    - uri: "/user/status/hellCheck$"
+      methods: [ "GET" ]
+      roles: [ "ROLE_ADMIN" ]
+    - uri: "/book/status/hellCheck$"
+      methods: [ "GET" ]
+      roles: [ "ROLE_ADMIN" ]
+    - uri: "/catalog/status/hellCheck$"
+      methods: [ "GET" ]
+      roles: [ "ROLE_ADMIN" ]
+    # Restricción para rutas que comienzan con '/auth/open'
+    - uri: "/auth/open/.*"
+      methods: ["GET","POST"]
+    # Restriccion para rutas que comienzan con '/user/restrict'
+    - uri: "/user/restrict/.*"
+      methods: ["GET","POST"]
+      roles: ["ROLE_ADMIN","ROLE_USER"]
+    # Restriccion para rutas que comienzan con '/book/restrict'
+    - uri: "/book/restrict/.*"
+      methods: ["GET","POST","PUT","DELETE"]
+      roles: ["ROLE_ADMIN"]
+    # Restriccion para rutas que comienzan con '/order/restrict'
+    - uri: "/order/restrict/.*"
+      methods: ["GET","POST"]
+      roles: ["ROLE_ADMIN","ROLE_USER"]

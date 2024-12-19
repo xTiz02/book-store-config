@@ -1,16 +1,88 @@
-spring:
-  application:
-    name: prd-eureka-server
-#Nuevo1
 server:
-  port: 8761
+  port: 8080
 
+#Eureka
 eureka:
   client:
-    register-with-eureka: false
-    fetch-registry: false
-    #server:
-    #wait-time-in-ms-when-sync-empty: 1000 #hace que el servidor espere 1 segundo antes de sincronizar con el servidor de descubrimiento si no hay instancias registradas
-    #enable-self-preservation: true # si se establece en true, el servidor de descubrimiento no eliminará las instancias que no envían actualizaciones de estado periódicas
-    #instance:
-    #lease-renewal-interval-in-seconds: 1 #frecuencia con la que las instancias deben enviar actualizaciones de estado al servidor de descubrimiento
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+
+
+#gateway-service
+spring:
+  application:
+    name: micro-gateway-service
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: auth-users
+          uri: lb://micro-auth-service
+          predicates:
+          - Path=/route/user/restrict/**, /route/auth/restrict/**, /route/user/status/** , /route/auth/status/**
+          filters:
+          #- RewritePath=/user/auth/(?<segment>.*), /$\{segment}
+          - StripPrefix=1
+          - name: AuthRequestFilter
+            args:
+              message: Request with token [ ${spring.cloud.gateway.routes[0].uri} ]
+              preLogger: true
+              postLogger: true
+        - id: auth-login
+          uri: lb://micro-auth-service
+          predicates:
+          - Path=/route/auth/open/**
+          filters:
+          - StripPrefix=1
+          - name: AuthRequestFilter
+            args:
+              message: Global request [ ${spring.cloud.gateway.routes[1].uri} ]
+              preLogger: false
+              postLogger: true
+        - id: book
+          uri: lb://micro-book-service
+          predicates:
+          - Path=/route/book/restrict/**
+          filters:
+          - StripPrefix=1
+          - name: AuthRequestFilter
+            args:
+              message: Request with token [ ${spring.cloud.gateway.routes[2].uri} ]
+              preLogger: true
+              postLogger: true
+        - id: catalog-open
+          uri: lb://micro-catalog-service
+          predicates:
+            - Path=/route/catalog/open/**
+          filters:
+            - StripPrefix=1
+            - name: AuthRequestFilter
+              args:
+                message: Request with token [ ${spring.cloud.gateway.routes[3].uri} ]
+                preLogger: false
+                postLogger: true
+        - id: catalog-restrict
+          uri: lb://micro-catalog-service
+          predicates:
+            - Path=/route/status/**
+          filters:
+            - StripPrefix=1
+            - name: AuthRequestFilter
+              args:
+                message: Request with token [ ${spring.cloud.gateway.routes[4].uri} ]
+                preLogger: true
+                postLogger: true
+        - id: order
+          uri: lb://micro-order-service
+          predicates:
+            - Path=/route/order/restrict/** , /route/order/status/**
+          filters:
+            - StripPrefix=1
+            - name: AuthRequestFilter
+              args:
+                message: Request with token [ ${spring.cloud.gateway.routes[5].uri} ]
+                preLogger: true
+                postLogger: true
+
