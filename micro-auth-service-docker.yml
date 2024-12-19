@@ -2,7 +2,7 @@ spring:
   application:
     name: micro-auth-service
   datasource:
-    url: jdbc:mysql://localhost:3306/MicroFullAuth
+    url: jdbc:mysql://service-mysql:3306/MicroFullAuth
     username: root
     password: ImNotlol12$$%%
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -15,7 +15,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka-server:8761/eureka/
 #instance:
 server:
   port: 8081
