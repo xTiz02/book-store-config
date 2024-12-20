@@ -2,7 +2,7 @@ spring:
   application:
     name: micro-auth-service
   datasource:
-    url: jdbc:mysql://msvc-mysql:3306/MicroFullAuth
+    url: jdbc:mysql://msvc-mysql:3307/MicroFullAuth
     username: root
     password: ImNotlol12msvc
     driver-class-name: com.mysql.cj.jdbc.Driver
