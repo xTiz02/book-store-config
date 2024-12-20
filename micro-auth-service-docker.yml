@@ -5,7 +5,7 @@ spring:
     url: jdbc:mysql://msvc-mysql:3307/MicroFullAuth
     username: root
     password: ImNotlol12msvc
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
     hibernate:
@@ -22,8 +22,8 @@ eureka:
     service-url:
       defaultZone: http://eureka-server:8761/eureka/
 #instance:
-server:
-  port: 8081
+#server:
+#  port: 8081
 
 # JWT
 security:
