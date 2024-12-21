@@ -1,11 +1,29 @@
-server:
-  port: 8888
-
 spring:
   application:
-    name: config-server
-  cloud:
-    config:
-      server:
-        git:
-          uri: https://github.com/xTiz02/book-store-config # Git repository URL
+    name: micro-book-service
+  datasource:
+    url: jdbc:mysql://msvc-mysql:3306/bookdb00
+    username: root
+    password: ImNotlol12$$%%
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  sql:
+    init:
+      mode: always
+  kafka:
+    bootstrap-servers: http://kafka-server:9092
+  book-topic-name: catalog-evt
+#Eureka
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+
+#instance:
+server:
+  port: 8082
