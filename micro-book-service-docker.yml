@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:mysql://msvc-mysql:3306/bookdb00
     username: root
-    password: ImNotlol12$$%%
+    password: ImNotlol12msvc
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
