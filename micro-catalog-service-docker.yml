@@ -1,16 +1,21 @@
 spring:
   application:
-    name: prd-eureka-server
-#Nuevo1
-server:
-  port: 8761
+    name: micro-catalog-service
+  data:
+    mongodb:
+      uri: mongodb://msvc-mongo:27017/catalogdb?serverSelectionTimeoutMS=2000&retryWrites=false
+  kafka:
+    bootstrap-servers: http://kafka-server:9092
+  book-topic-name: catalog-evt
 
+#instance:
+server:
+  port: 8083
+
+#eureka:
 eureka:
   client:
-    register-with-eureka: false
-    fetch-registry: false
-    #server:
-    #wait-time-in-ms-when-sync-empty: 1000 #hace que el servidor espere 1 segundo antes de sincronizar con el servidor de descubrimiento si no hay instancias registradas
-    #enable-self-preservation: true # si se establece en true, el servidor de descubrimiento no eliminará las instancias que no envían actualizaciones de estado periódicas
-    #instance:
-    #lease-renewal-interval-in-seconds: 1 #frecuencia con la que las instancias deben enviar actualizaciones de estado al servidor de descubrimiento
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
