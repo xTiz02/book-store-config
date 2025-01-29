@@ -39,6 +39,15 @@ management:
         include: health,prometheus
       base-path: /actuator/usuarios
 
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name}, %X{traceId:-}, %X{spanId:-}] %m%n"
+
+
 #paths
 request-paths:
   paths:
