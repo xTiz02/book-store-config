@@ -17,6 +17,26 @@ spring:
     init:
       mode: always
 
+# zipkin
+management:
+  zipkin:
+    tracing:
+      endpoint: http://zipkin-server:9411/api/v2/spans
+  tracing:
+    sampling:
+      probability: 1.0
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+      base-path: /actuator/usuarios
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name}, %X{traceId:-}, %X{spanId:-}] %m%n"
 
 eureka:
   client:
