@@ -25,6 +25,19 @@ security:
   jwt:
     expiration-in-minutes: 600000
     secret-key: ZXN0YSBlcyBtaSBjb250cmFzZW5hIHNlZ3VyYSAxMjM0NTY3ODkgQUJDYWJj
+# zipkin
+management:
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+  tracing:
+    sampling:
+      probability: 1.0
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+      base-path: /actuator/usuarios
 
 #paths
 request-paths:
