@@ -79,3 +79,7 @@ request-paths:
     - uri: "/order/restrict/.*"
       methods: ["GET","POST"]
       roles: ["ROLE_ADMIN","ROLE_USER"]
+    # Restriccion para actuators
+    - uri: "/actuator/.*"
+      methods: ["GET"]
+      roles: ["ROLE_ADMIN"]
