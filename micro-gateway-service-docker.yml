@@ -104,4 +104,59 @@ spring:
                 message: Request with token [ ${spring.cloud.gateway.routes[5].uri} ]
                 preLogger: true
                 postLogger: true
+        - id: order-actuator
+          uri: lb://micro-order-service/actuator/orden/**
+          predicates:
+            - Path=/route/actuator/orden/**
+          filters:
+            - StripPrefix=1
+            - name: AuthRequestFilter
+              args:
+                message: Request with token [ ${spring.cloud.gateway.routes[6].uri} ]
+                preLogger: true
+                postLogger: true
+        - id: catalog-actuator
+          uri: lb://micro-catalog-service/actuator/catalogo/**
+          predicates:
+            - Path=/route/actuator/catalogo/**
+          filters:
+            - StripPrefix=1
+            - name: AuthRequestFilter
+              args:
+                message: Request with token [ ${spring.cloud.gateway.routes[7].uri} ]
+                preLogger: true
+                postLogger: true
+        - id: auth-actuator
+          uri: lb://micro-auth-service/actuator/usuarios/**
+          predicates:
+            - Path=/route/actuator/usuarios/**
+          filters:
+            - StripPrefix=1
+            - name: AuthRequestFilter
+              args:
+                message: Request with token [ ${spring.cloud.gateway.routes[8].uri} ]
+                preLogger: true
+                postLogger: true
+        - id: book-actuator
+          uri: lb://micro-book-service/actuator/libros/**
+          predicates:
+            - Path=/route/actuator/libros/**
+          filters:
+            - StripPrefix=1
+            - name: AuthRequestFilter
+              args:
+                message: Request with token [ ${spring.cloud.gateway.routes[9].uri} ]
+                preLogger: true
+                postLogger: true
+        - id: payment-actuator
+          uri: lb://micro-payment-service/actuator/pago/**
+          predicates:
+            - Path=/route/actuator/pago/**
+          filters:
+            - StripPrefix=1
+            - name: AuthRequestFilter
+              args:
+                message: Request with token [ ${spring.cloud.gateway.routes[10].uri} ]
+                preLogger: true
+                postLogger: true
 
