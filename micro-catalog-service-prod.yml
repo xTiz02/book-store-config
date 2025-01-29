@@ -13,6 +13,27 @@ spring-book-topic-name: catalog-evt
 server:
   port: 8083
 
+# zipkin
+management:
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+  tracing:
+    sampling:
+      probability: 1.0
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+      base-path: /actuator/catalogo
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name}, %X{traceId:-}, %X{spanId:-}] %m%n"
 #eureka:
 eureka:
   client:
